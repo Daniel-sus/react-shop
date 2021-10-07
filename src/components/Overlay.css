@@ -1,0 +1,11 @@
+.overlayy{
+position: fixed;
+background-color: rgb(24, 24, 24);
+min-width: 100%;
+min-height: 100vh;
+opacity: 74%;
+z-index: 10;
+top: 0;
+left: 0;
+overflow: hidden;
+}
