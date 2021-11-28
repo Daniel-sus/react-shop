@@ -3,16 +3,33 @@
     height: 128px;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid #DDDDDD;
     z-index: 1;
     background-color: #f5f5f5;
     border-top-left-radius: 24px;
     border-top-right-radius: 24px;
 }
 .logo{
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
 }
+.ball{
+    position: absolute;
+    top: 4px;
+    left: 62px;
+    transition: all 0.5s ease-in-out;
+    z-index: 40;
+}
+.ball2{
+    position: absolute;
+    top: 2px;
+    left: 62px;
+}
+.logowrapper:hover .ball{
+    left: 90px;
+    top: 20px;
+}
+
 
 .container {
     max-width: 1110px;
@@ -25,6 +42,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 }
 
 .left-wrapper {
@@ -52,9 +70,6 @@
     padding-right: 10px;
     cursor: pointer;
 }
-.cart.item-added{
-    transform: translateX(-5px);
-}
 
 .counter{
     position: absolute ;
@@ -64,22 +79,10 @@
     font-weight: 500;
     cursor: pointer;
 }
-.cart,.heart,.profile{
-    transition: 0.3s ease-in-out;
-    padding: 5px;
-}
-.cart:hover{
+
+.price-header, .heart, .profile {
+    padding: 7px;
     cursor: pointer;
-    transform: translateY(-4px);
-    
-}
-.heart:hover{
-    cursor: pointer;
-    transform: translateY(-4px);
-}
-.profile:hover {
-    cursor: pointer;
-    transform: translateY(-4px);
 }
 
 .arrowDownn{
@@ -113,9 +116,5 @@
         display: flex;
         align-items: center;
         padding-left: 0px;
-    }
-    .arrowDownn{
-        display: inline-block;
-        z-index: 20;
     }
 }

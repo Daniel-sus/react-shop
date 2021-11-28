@@ -6,7 +6,7 @@ import profile from "../icons/profile.svg";
 import logo from "../icons/logo2.png";
 import { Link } from "react-router-dom";
 
-const BurgerSlider = () => {
+const BurgerSlider = (props) => {
   return (
     <div className="green">
       <div className="logodiv">
@@ -21,17 +21,23 @@ const BurgerSlider = () => {
           alt="logo"
         />
       </div>
-      <div className="cart-wrapper">
+      <div className="cart-wrapperr">
         <div>
-          <img className="cart" id="cart" src={cart} alt="cart" />
+          <img
+            className="cartt"
+            id="cart"
+            onClick={props.onClickCart}
+            src={cart}
+            alt="cart"
+          />
         </div>
         <div>
-          <Link to="/favourites">
+          <Link to={process.env.PUBLIC_URL + "/favourites"}>
             <img className="heart" src={heart} alt="heart" />
           </Link>
         </div>
         <div>
-          <Link to="/account">
+          <Link to={process.env.PUBLIC_URL + "/account"}>
             <img className="profile" src={profile} alt="profile" />
           </Link>
         </div>

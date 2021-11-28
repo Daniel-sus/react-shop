@@ -4,32 +4,35 @@ import GridItem from "./GridItem";
 import back from "../icons/back.svg";
 import "./Favourites.css";
 import smile from "../icons/smile.svg";
-import arrow from "../icons/arrow-btn.svg";
 import AppContext from "../context";
+import Button from "./Button";
 
-const Favourites = ({ onPlus, onFavourite }) => {
+const Favourites = () => {
+  const { onPlus } = React.useContext(AppContext);
+  const { onAddToFavourite } = React.useContext(AppContext);
   const { favouriteItems } = React.useContext(AppContext);
-  console.log(favouriteItems);
   return (
     <div className="main-container">
       {favouriteItems.length > 0 ? (
         <div>
           <div className="backWrapper">
-            <Link to="/">
-              <img src={back} className="arrow-back" alt="назад" />
+            <Link to={process.env.PUBLIC_URL + "/"}>
+              <img src={back} className="arrow-return" alt="назад" />
             </Link>
-            <h1 className="titlee">Мои закладки</h1>
+            <h1 className="titlee">My favourites</h1>
           </div>
           <div className="grid-wrapper">
-            {favouriteItems.map((item) => (
+            {favouriteItems.map((item, index) => (
               <GridItem
                 item={item}
                 id={item.id}
-                key={item.id}
+                key={index}
                 onPlus={onPlus}
-                onFavourite={onFavourite}
+                onFavourite={onAddToFavourite}
+                price={item.price}
+                title={item.title}
                 imageUrl={item.imageUrl}
-                favourited={true}
+                favorited={true}
               />
             ))}
           </div>
@@ -37,15 +40,15 @@ const Favourites = ({ onPlus, onFavourite }) => {
       ) : (
         <div className="no-favourites">
           <img src={smile} alt="смайл" />
-          <h2>Закладок нет :( </h2>
+          <h2>No favourites :( </h2>
           <h5 style={{ color: "gray", fontWeight: "100", paddingTop: "12px" }}>
-            Вы ничего не добавили в закладки
+            You haven't added anything to favourites yet
           </h5>
-          <Link to="/" style={{ textDecoration: "none" }}>
-            <div className="no-favourites-btn ">
-              <img src={arrow} className="arrow-back" alt="назад" /> Вернуться
-              назад
-            </div>
+          <Link
+            to={process.env.PUBLIC_URL + "/"}
+            style={{ textDecoration: "none" }}
+          >
+            <Button />
           </Link>
         </div>
       )}

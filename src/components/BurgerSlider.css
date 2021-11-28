@@ -5,20 +5,22 @@
     width: 100%;
     right: 0;
     background-color: #f5f5f5;
-    margin-bottom: 60px;
     z-index: 15;
     opacity: 90%;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #DDDDDD;
     display: none;
 }
-    .cart-wrapper{
+    .cart-wrapperr{
         display: flex;
         align-items: center;
         justify-content: space-around;
         flex: 1;
     }
+    .cartt{
+        cursor: pointer;
+    }
     .logodiv{
-        border-right: 1px solid black;
+        border-right: 1px solid #DDDDDD;
     }
   @media (max-width: 749px) {
       .green{

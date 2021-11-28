@@ -7,9 +7,9 @@ import axios from "axios";
 import { Route } from 'react-router-dom'
 import Favourites from './components/Favourites'
 import Account from './components/Account';
-import Overlay from './components/Overlay';
 import AppContext from './context';
 import BurgerSlider from "./components/BurgerSlider"
+import Overlay from './components/Overlay';
 
 function App() {
 
@@ -21,8 +21,14 @@ function App() {
 
   const [counter, setCounter] = useState()
 
+  const { setIsFavorite } = React.useContext(AppContext)
+
   const isItemAdded = (id) => {
-    return cartItems.some((obj) => Number(obj.id) == Number(id))
+    return cartItems.some((obj) => Number(obj.parentId) === Number(id))
+  }
+
+  const isItemLiked = (id) => {
+    return favouriteItems.some((obj) => Number(obj.parentId) === Number(id))
   }
 
   React.useEffect(() => {
@@ -44,66 +50,68 @@ function App() {
     Preload()
   }, []);
 
-
-  const onAddToFavourite = async (item) => {
-   try {
-    if (favouriteItems.find((f) => Number(f.id) == Number(item.id))){
-      axios
-      .delete(`https://613397247859e700176a3760.mockapi.io/favourites/${item.id}`)
-      setFavouriteItems((prev) => prev.filter( f => Number(f.id) !== Number(item.id)))
-    } else {
-      const {data} = await axios.post('https://613397247859e700176a3760.mockapi.io/favourites', item)
-    setFavouriteItems((prev) => [...prev, data])}
-   } catch (error) {
-     alert("ты еблан")
-   }
+  const onAddToFavourite = async (obj) => {
+    try {
+      if (favouriteItems.find((item) => Number(item.id) === Number(obj.id))) {
+        axios.delete(`https://613397247859e700176a3760.mockapi.io/favourites/${obj.id}`)
+        setFavouriteItems((prev) => prev.filter((item) => Number(item.id) !== Number(obj.id)))
+        setIsFavorite(false)
+      } else {
+        const { data } = await
+        axios.post('https://613397247859e700176a3760.mockapi.io/favourites', obj)
+        setFavouriteItems((prev) => [...prev, data])
+      }
+    } catch (error) {
+      
+    }
   }
 
   React.useEffect(() => {
     setCounter(cartItems.length)
-  })
+  }, [cartItems])
  
 
-  const onAddToCart = (item) => {
-    if (cartItems.find(f => Number(f.id) == Number(item.id))) {
-       axios
-    .delete(`https://613397247859e700176a3760.mockapi.io/cart/${item.id}`);
-      setCartItems((cartItems) => cartItems.filter( f => Number(f.id) !==  Number(item.id)))
+  const onAddToCart = async (cartItemObj) => {
+    try {
+      const findItem = cartItems.find(item => Number(item.parentId) === Number(cartItemObj.id))
+    if (findItem) {
+    setCartItems((prev) => prev.filter( item => Number(item.parentId) !==  Number(cartItemObj.id)))
+    await axios
+    .delete(`https://613397247859e700176a3760.mockapi.io/cart/${findItem.id}`);
     } else {
-      axios
-    .post('https://613397247859e700176a3760.mockapi.io/cart', item);
-    setCartItems((cartItems) => [...cartItems, item]);
-    setCounter(cartItems.length)
-    console.log(item.id)
+    const {data} = await axios
+    .post('https://613397247859e700176a3760.mockapi.io/cart', cartItemObj);
+    setCartItems((prev) => [...prev, data]);
     }
+  } catch (error) {
+    alert("Ошибка при добвалении в корзину")
+  }
+    
   };
  
 
-  const deleteItem = (item) => {
-    
-    setCartItems((prev) => prev.filter( f => Number(f.id) !==  Number(item.id)))
+  const deleteItem = (id) => {
     axios
-    .delete(`https://613397247859e700176a3760.mockapi.io/cart/${item.id}`);
-    setCounter(cartItems.length)
+    .delete(`https://613397247859e700176a3760.mockapi.io/cart/${id}`);
+    setCartItems((prev) => prev.filter((item) => Number(item.id) !==  Number(id)))
   }
   const [cartOpened, setCartOpened] = useState(false)
   const [burgerOpened, setBurgerOpened] = useState(false)
   return (
-    <AppContext.Provider value={{wrapperItems, cartItems, favouriteItems, isItemAdded, setCartOpened,  setCartItems, setBurgerOpened, burgerOpened }}>
+    <AppContext.Provider value={{ onAddToFavourite, wrapperItems, cartOpened, cartItems, favouriteItems, isItemAdded, isItemLiked, setCartOpened,  setCartItems, setBurgerOpened, burgerOpened, onAddToCart }}>
       <div className="App">
       <div className="main_wrapper"> 
-      {cartOpened ? <Overlay onClickOverlay={() => setCartOpened(false)}/> : null}
-        {cartOpened ? <SideBar deleteItem={(cartitem) => deleteItem(cartitem)} items={cartItems} onRemoveItem onClose={() => setCartOpened(false)} /> : null}
-        
+      {cartOpened ? <Overlay onClose={()=> setCartOpened((false))}/> : null}
+      {cartOpened ? <SideBar deleteItem={(cartitem) => deleteItem(cartitem)} items={cartItems} onRemoveItem onClose={() => setCartOpened(false)} />: null}
         <Header onClickCart={() => setCartOpened(true)} counter={counter}/>
-        <BurgerSlider />
-       <Route path="/favourites">
-         <Favourites onFavourite={(item) => onAddToFavourite(item)} onPlus={(item) => onAddToCart(item)}/>
+        <BurgerSlider onClickCart={() => setCartOpened(!cartOpened)} />
+       <Route path={process.env.PUBLIC_URL + "/favourites"} >
+         <Favourites />
        </Route>
-        <Route path="/" exact>
-          <Home wrapperItems={wrapperItems} cartItems={cartItems} favouriteItems={favouriteItems} onFavourite={(item) => onAddToFavourite(item)} onPlus={(item) => onAddToCart(item)} />
+        <Route path={process.env.PUBLIC_URL + "/"} exact >
+          <Home />
           </Route>
-          <Route path="/account">
+          <Route path={process.env.PUBLIC_URL + "/account"}>
          <Account />
        </Route>
       </div>

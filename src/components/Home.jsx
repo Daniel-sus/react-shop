@@ -2,41 +2,61 @@ import React from "react";
 import GridItem from "./GridItem";
 import "./MainContainer.css";
 import search from "../icons/search.svg";
+import cross from "../icons/close.svg";
+import AppContext from "../context";
 
-const Home = ({
-  wrapperItems,
-  cartItems,
-  favouriteItems,
-  onPlus,
-  onFavourite,
-}) => {
-  console.log(wrapperItems);
+const Home = () => {
+  const [searchValue, setSearchValue] = React.useState("");
+
+  const { wrapperItems } = React.useContext(AppContext);
+  const { onAddToCart } = React.useContext(AppContext);
+  const { onAddToFavourite } = React.useContext(AppContext);
+
+  const onChangeSearchInput = (event) => {
+    setSearchValue(event.target.value);
+    const letterNumber = searchValue.length;
+    letterNumber < 10 ? setSearchValue(event.target.value) : setSearchValue("");
+  };
+
   return (
     <div className="main-container">
       <div className="under-header-wrapper">
-        <h1 className="title">All sneakers</h1>
+        <h1 className="title">
+          {searchValue ? `Search by: "${searchValue}"` : "All sneakers"}
+        </h1>
         <div className="searchwrapper">
           <img className="search" src={search} alt="search" />
-          <input className="input" placeholder="Поиск..." type="text" />
+          <input
+            className="input"
+            onChange={onChangeSearchInput}
+            placeholder="Search..."
+            value={searchValue}
+            type="text"
+          />
+          {searchValue ? (
+            <img
+              className="cross"
+              onClick={() => setSearchValue("")}
+              src={cross}
+              alt="cross"
+            />
+          ) : null}
         </div>
       </div>
 
       <div className="grid-wrapper">
-        {wrapperItems.map((item) => (
-          <GridItem
-            item={item}
-            id={item.id}
-            key={item.id}
-            price={item.price}
-            title={item.title}
-            onPlus={onPlus}
-            onFavourite={onFavourite}
-            added={cartItems.some((f) => Number(f.id) == Number(item.id))}
-            favourited={favouriteItems.some(
-              (obj) => Number(obj.id) == Number(item.id)
-            )}
-          />
-        ))}
+        {wrapperItems
+          .filter((ff) =>
+            ff.title.toLowerCase().includes(searchValue.toLowerCase())
+          )
+          .map((item, index) => (
+            <GridItem
+              {...item}
+              key={index}
+              onPlus={(obj) => onAddToCart(obj)}
+              onFavourite={(obj) => onAddToFavourite(obj)}
+            />
+          ))}
       </div>
     </div>
   );
