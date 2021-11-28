@@ -2,7 +2,6 @@
   "name": "nike",
   "version": "0.1.0",
   "private": true,
-  "homegage": "https://daniel-sus.github.io/sneakers-react/",
   "proxy": "https://613397247859e700176a3760.mockapi.io",
   "dependencies": {
     "6": "^0.0.1",
