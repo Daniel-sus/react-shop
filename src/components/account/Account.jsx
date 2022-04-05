@@ -1,34 +1,38 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Account.css";
-import smile from "../icons/upsetsmile.svg";
-import Button from "./Button";
+import smile from "../../icons/upsetsmile.svg";
+import Button from "../button/Button";
 import axios from "axios";
-import GridItem from "./GridItem";
-import backk from "../icons/back.svg";
+import GridItem from "../griditem/GridItem";
+import backk from "../../icons/back.svg";
 
 const Account = () => {
   const [orders, setOrders] = React.useState([]);
+  const [orderId, setOrderId] = React.useState();
 
   React.useEffect(() => {
     (async () => {
       const { data } = await axios.get(
         "https://613397247859e700176a3760.mockapi.io/orders"
       );
+      setOrderId(data);
       setOrders(data.map((obj) => obj.cartItems).flat());
     })();
   }, []);
 
   const deleteOrderItems = async () => {
     try {
-      for (let i = 0; i < orders.length; i++) {
-        const order = orders[i];
+      for (let i = 0; i < orderId.length; i++) {
+        const orderDelete = orderId[i].id;
         await axios.delete(
-          "https://613397247859e700176a3760.mockapi.io/orders/" + order.id
+          `https://613397247859e700176a3760.mockapi.io/orders/${orderDelete}`
         );
-        setOrders([]);
       }
-    } catch (error) {}
+      setOrders([]);
+    } catch (error) {
+      alert("Не получилось удалить товары");
+    }
   };
 
   return (
@@ -56,21 +60,21 @@ const Account = () => {
             <Link to={process.env.PUBLIC_URL + "/"}>
               <img src={backk} className="arrow-return" alt="назад" />
             </Link>
-            <h1 className="titlee">My orders</h1>
+            <h1 className="titleee">My orders</h1>
             <div className="delete_orders" onClick={() => deleteOrderItems()}>
-              Delete
+              Clear
             </div>
           </div>
-          <div className="grid-wrapper">
-            {orders.map((item, index) => (
-              <GridItem
-                item={item}
-                id={item.id}
-                key={index}
-                price={item.price}
-                title={item.title}
-                imageUrl={item.imageUrl}
-              />
+          <div className="order-reciept-wrapper">
+            {orderId.map((obj) => (
+              <div className="reciept-card">
+                <h2>{obj.id}. Order</h2>
+                <div className="grid-order-wrapper">
+                  {obj.cartItems.map((item) => (
+                    <GridItem key={item.id} {...item} noheart={true} />
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </div>

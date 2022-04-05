@@ -1,0 +1,130 @@
+.header {
+  width: 100%;
+  height: 128px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #dddddd;
+  z-index: 1;
+  background-color: #f5f5f5;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+}
+.logo {
+  width: 60px;
+  height: 60px;
+}
+.ball {
+  position: absolute;
+  top: 4px;
+  left: 62px;
+  transition: all 0.5s ease-in-out;
+  z-index: 40;
+}
+.ball2 {
+  position: absolute;
+  top: 2px;
+  left: 62px;
+}
+.logowrapper:hover .ball {
+  left: 90px;
+  top: 20px;
+}
+
+.container {
+  max-width: 1110px;
+  margin: 0 auto;
+  padding: 0 15px;
+  flex: 1;
+}
+
+.header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.left-wrapper {
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+}
+
+.text-wrapper {
+  padding-left: 20px;
+}
+
+.right-wrapper {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-right: 20px;
+}
+
+.cart-wrapper {
+  position: relative;
+  min-width: 100px;
+}
+.cart {
+  padding-right: 10px;
+  cursor: pointer;
+}
+
+.counter {
+  position: absolute;
+  top: -10px;
+  left: 22px;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.price-header,
+.heart,
+.profile {
+  padding: 7px;
+  cursor: pointer;
+}
+.heart {
+  margin-right: 40px;
+}
+
+.arrowDownn {
+  display: none;
+}
+
+@media (max-width: 864px) {
+  .price-header {
+    display: none;
+  }
+  .right-wrapper {
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  .cart-wrapper {
+    min-width: 40px;
+  }
+  .heart {
+    margin-right: 0px;
+  }
+}
+
+@media (max-width: 749px) {
+  .header {
+    display: none;
+    margin-top: 0;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+  }
+  .right-wrapper {
+    display: none;
+  }
+  .left-wrapper {
+    display: flex;
+    align-items: center;
+    padding-left: 0px;
+  }
+}

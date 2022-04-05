@@ -1,13 +1,11 @@
 import React from "react";
 import "./Header.css";
-import logo2 from "../icons/logo2.png";
-import cart from "../icons/cart.svg";
-import heart from "../icons/heart.svg";
-import profile from "../icons/profile.svg";
+import logo from "../../icons/logo2.png";
+import cart from "../../icons/cart.svg";
+import heart from "../../icons/heart.svg";
+import profile from "../../icons/profile.svg";
 import { Link } from "react-router-dom";
-import ball from "../icons/ball.svg";
-import ball2 from "../icons/ball2.svg";
-import AppContext from "../context";
+import AppContext from "../../context";
 
 const Header = (props) => {
   const { cartItems } = React.useContext(AppContext);
@@ -17,12 +15,11 @@ const Header = (props) => {
       <div className="container">
         <div className="header-wrapper">
           <div className="left-wrapper">
-            <div className="logowrapper">
-              <img className="logo" src={logo2} alt="logo" />
-              <img className="ball" src={ball} alt="ball" />
-              <img className="ball2" src={ball2} alt="ball2" />
-            </div>
-
+            <Link to={process.env.PUBLIC_URL + "/"}>
+              <div className="logowrapper">
+                <img className="logo" src={logo} alt="logo" />
+              </div>
+            </Link>
             <div className="text-wrapper">
               <div className="header-title">
                 <h2 style={{ paddingLeft: "20px" }}>React Sneakers</h2>

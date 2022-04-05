@@ -81,7 +81,9 @@
       display: grid;
       grid-template-columns: 1fr;
       align-items: center;
+      gap: 50px;
       margin: 0 auto;
+      padding-bottom: 80px;
     }
     .title{
       display: none;
@@ -89,7 +91,4 @@
     .searchwrapper{
       width: 100%;
     }
-    /* .under-header-wrapper{
-      display: none;
-    } */
   }

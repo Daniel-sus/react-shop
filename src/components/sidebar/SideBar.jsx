@@ -1,19 +1,21 @@
 import React, { Fragment } from "react";
 import "./SideBar.css";
-import close from "../icons/close.svg";
-import CartItem from "./CartItem";
-import box from "../icons/box.svg";
-import list from "../icons/list.svg";
-import arrow2 from "../icons/arrow.svg";
-import "./Account.css";
-import AppContext from "../context";
-import Button from "./Button";
+import close from "../../icons/close.svg";
+import CartItem from "../cartitem/CartItem";
+import box from "../../icons/box.svg";
+import list from "../../icons/list.svg";
+import arrow2 from "../../icons/arrow.svg";
+import "../account/Account.css";
+import AppContext from "../../context";
+import Button from "../button/Button";
 import axios from "axios";
 
-const SideBar = ({ onClose, items = [], deleteItem }) => {
-  const { cartItems, setCartItems } = React.useContext(AppContext);
+const SideBar = () => {
+  const { cartItems, setCartItems, setCartOpened, cartOpened } =
+    React.useContext(AppContext);
 
   const [isOrderComplete, setIsOrderComplete] = React.useState(false);
+
   const [orderId, setOrderId] = React.useState(null);
 
   const orderComplete = async () => {
@@ -41,46 +43,38 @@ const SideBar = ({ onClose, items = [], deleteItem }) => {
 
   return (
     <div className="sidebar">
-      {items.length > 0 ? (
+      {cartItems.length > 0 ? (
         <Fragment>
           <div className="close-wrapper">
             <h2>Cart</h2>
-            <img onClick={onClose} src={close} alt="close" />
+            <img onClick={() => setCartOpened(false)} src={close} alt="close" />
           </div>
           <div className="cartitemsdiv">
             <div className="items">
-              {items.map((cartItem, index) => (
-                <CartItem
-                  id={cartItem.id}
-                  key={index}
-                  deleteItem={deleteItem}
-                  price={cartItem.price}
-                  title={cartItem.title}
-                  parentId={cartItem.parentId}
-                  imageUrl={cartItem.imageUrl}
-                />
+              {cartItems.map((cartItem) => (
+                <CartItem key={cartItem.id} {...cartItem} />
               ))}
             </div>
-            <div className="final-wrapper">
-              <div className="final-price">
-                <span className="fn-text">Total:</span>
-                <span className="fn-empty"></span>
-                <span className="fn-price">${totalPrice} </span>
-              </div>
-              <div className="final-taxes">
-                <span className="fn-text">Taxes 5%: </span>
-                <span className="fn-empty"></span>
-                <span className="fn-price">${(totalPrice / 100) * 5}</span>
-              </div>
-              <div className="sidebar-btn" onClick={orderComplete}>
-                <div>Make an order</div>
-                <img
-                  style={{ paddingLeft: "10px", paddingRight: "10px" }}
-                  src={arrow2}
-                  className="arrow-backk"
-                  alt="назад"
-                />
-              </div>
+          </div>
+          <div className="final-wrapper">
+            <div className="final-price">
+              <div className="fn-text">Total:</div>
+              <div className="fn-empty"></div>
+              <div className="fn-price">${totalPrice} </div>
+            </div>
+            <div className="final-taxes">
+              <div className="fn-text">Taxes 5%: </div>
+              <div className="fn-empty"></div>
+              <div className="fn-price">${(totalPrice / 100) * 5}</div>
+            </div>
+            <div className="sidebar-btn" onClick={orderComplete}>
+              <div>Make an order</div>
+              <img
+                style={{ paddingLeft: "10px", paddingRight: "10px" }}
+                src={arrow2}
+                className="arrow-backk"
+                alt="назад"
+              />
             </div>
           </div>
         </Fragment>

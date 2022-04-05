@@ -6,9 +6,8 @@
     right: 0;
     background-color: #f5f5f5;
     z-index: 15;
-    opacity: 90%;
     border-bottom: 1px solid #DDDDDD;
-    display: none;
+    display: none; 
 }
     .cart-wrapperr{
         display: flex;
@@ -22,10 +21,10 @@
     .logodiv{
         border-right: 1px solid #DDDDDD;
     }
-  @media (max-width: 749px) {
-      .green{
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-      }
-  }
+    @media (max-width: 749px) {
+        .green{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }

@@ -1,9 +1,9 @@
 import React from "react";
 import "./BurgerSlider.css";
-import cart from "../icons/cart.svg";
-import heart from "../icons/heart.svg";
-import profile from "../icons/profile.svg";
-import logo from "../icons/logo2.png";
+import cart from "../../icons/cart.svg";
+import heart from "../../icons/heart.svg";
+import profile from "../../icons/profile.svg";
+import logo from "../../icons/logo2.png";
 import { Link } from "react-router-dom";
 
 const BurgerSlider = (props) => {
@@ -33,12 +33,22 @@ const BurgerSlider = (props) => {
         </div>
         <div>
           <Link to={process.env.PUBLIC_URL + "/favourites"}>
-            <img className="heart" src={heart} alt="heart" />
+            <img
+              className="heart"
+              onClick={props.onClose}
+              src={heart}
+              alt="heart"
+            />
           </Link>
         </div>
         <div>
           <Link to={process.env.PUBLIC_URL + "/account"}>
-            <img className="profile" src={profile} alt="profile" />
+            <img
+              className="profile"
+              onClick={props.onClose}
+              src={profile}
+              alt="profile"
+            />
           </Link>
         </div>
       </div>

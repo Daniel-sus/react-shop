@@ -1,16 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import GridItem from "./GridItem";
-import back from "../icons/back.svg";
+import GridItem from "../griditem/GridItem";
+import back from "../../icons/back.svg";
 import "./Favourites.css";
-import smile from "../icons/smile.svg";
-import AppContext from "../context";
-import Button from "./Button";
+import smile from "../../icons/smile.svg";
+import AppContext from "../../context";
+import Button from "../button/Button";
 
 const Favourites = () => {
-  const { onPlus } = React.useContext(AppContext);
-  const { onAddToFavourite } = React.useContext(AppContext);
-  const { favouriteItems } = React.useContext(AppContext);
+  const { onPlus, favouriteItems } = React.useContext(AppContext);
+
   return (
     <div className="main-container">
       {favouriteItems.length > 0 ? (
@@ -24,11 +23,10 @@ const Favourites = () => {
           <div className="grid-wrapper">
             {favouriteItems.map((item, index) => (
               <GridItem
-                item={item}
                 id={item.id}
+                serverId={item.parentId}
                 key={index}
                 onPlus={onPlus}
-                onFavourite={onAddToFavourite}
                 price={item.price}
                 title={item.title}
                 imageUrl={item.imageUrl}
